@@ -1,0 +1,20 @@
+machine:
+  pre:
+    - curl -sSL https://s3.amazonaws.com/circle-downloads/install-circleci-docker.sh | bash -s -- 1.10.0
+  services:
+    - docker
+
+dependencies:
+  cache_directories:
+    - "~/docker"
+  pre:
+    - mkdir -p ~/docker
+    - if [[ -e ~/docker/image.tar ]]; then docker load -i ~/docker/image.tar; fi
+  override:
+    - docker build -t cci-docker .
+  post:
+    - docker save cci-docker > ~/docker/image.tar
+
+test:
+  override:
+    - echo "no tests"
