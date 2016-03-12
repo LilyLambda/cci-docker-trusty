@@ -8,6 +8,7 @@ dependencies:
   cache_directories:
     - "~/docker"
   pre:
+    - cat /etc/issue
     - mkdir -p ~/docker
     - if [[ -e ~/docker/image.tar ]]; then docker load -i ~/docker/image.tar; fi
   override:
